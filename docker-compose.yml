@@ -1,0 +1,24 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: home-assistant
+    hostname: ha-docker
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - ${PROJECTS}\Hassio-Docker\Persistence\Config:/config
+    environment:
+      - TZ=Europe/Madrid
+    restart: always
+    ports:
+      - 8123:8123
+
+  node-red:
+    container_name: "node-red"
+    environment:
+      TZ: TZ=Europe/Madrid
+    image: "nodered/node-red"
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+    volumes:
+      - ${PROJECTS}\Hassio-Docker\NodeRed\Persistence:/data
