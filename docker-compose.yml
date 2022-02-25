@@ -4,6 +4,9 @@ services:
     container_name: home-assistant
     hostname: ha-docker
     image: homeassistant/home-assistant:latest
+    depends_on:
+      - mariadb
+      - node-red
     volumes:
       - ${PROJECTS}\Docker-Persistence\home-assistant-docker\config:/config
     environment:
@@ -17,7 +20,7 @@ services:
     environment:
       TZ: TZ=Europe/Madrid
     image: "nodered/node-red"
-    restart: unless-stopped
+    restart: always
     ports:
       - "1880:1880"
     volumes:
@@ -27,9 +30,10 @@ services:
     image: mariadb:latest
     container_name: mariadb
     hostname: mariadb-server
+    restart: always
     ports:
       - "3306:3306"
     environment: 
-      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: "xxx"
     volumes:
-      - ${PROJECTS}\Docker-Persistence\mariadb:/data/db
+      - ${PROJECTS}\Docker-Persistence\mariadb:/var/lib/mysql
