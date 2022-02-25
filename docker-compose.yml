@@ -3,7 +3,7 @@ services:
   homeassistant:
     container_name: home-assistant
     hostname: ha-docker
-    image: homeassistant/home-assistant:stable
+    image: homeassistant/home-assistant:2021.4.6
     volumes:
       - ${PROJECTS}\Docker-Persistence\home-assistant-docker\config:/config
     environment:
@@ -22,3 +22,17 @@ services:
       - "1880:1880"
     volumes:
       - ${PROJECTS}\Docker-Persistence\node-red\data:/data
+
+  mysql:
+    container_name: mysql
+    hostname: mysql-server
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - ${PROJECTS}\Docker-Persistence\mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DHA_MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DHA_MYSQL_PASSWORD}
+      - MYSQL_USER=${DHA_MYSQL_USER}
+      - MYSQL_DATABASE=${DHA_MYSQL_DATABASE}
